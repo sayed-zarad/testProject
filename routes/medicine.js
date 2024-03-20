@@ -1,7 +1,11 @@
-const express = require("express");
-const medicine = require("../controllers/medicine");
-const router = express.Router();
+const { Router } = require('express');
+const medicineRouter = Router()
 
-router.post("/", medicine.addMedicine);
+const medicineController = require('../controllers/medicine');
 
-module.exports = router;
+medicineRouter.post('/', medicineController.addMedicine);
+medicineRouter.put('/:id',medicineController.updateMedicine);
+
+module.exports = {
+    medicineRouter
+};
