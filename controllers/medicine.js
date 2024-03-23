@@ -54,9 +54,17 @@ const updateMedicine = (req, res) => {
     res.json({ message: "Medicine updated successfully", medicine: medicines});
 };
 
-
+const getMedicineById = (req, res) => {
+  const id = req.params.id;
+  const medicine = medicines.find(medicine => medicine.id === id);
+  if (!medicine) {
+    return res.status(404).json({ message: "Medicine not found" });
+  }
+  res.json(medicine);
+};
 
 module.exports = {
   addMedicine,
   updateMedicine,
+  getMedicineById,
 };
