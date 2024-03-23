@@ -66,4 +66,5 @@ const getMedicineById = (req, res) => {
 module.exports = {
   addMedicine,
   updateMedicine,
+  getMedicineById,
 };
