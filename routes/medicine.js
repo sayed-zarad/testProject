@@ -10,6 +10,13 @@ medicineRouter.delete('/:id', medicineController.deleteMedicine);
 
 medicineRouter.get('/getMedicine',medicineController.getMedicineById);
 
+
+
+medicineRouter.get("/", medicineController.getAllMedicines);
+
+
+
+
 module.exports = {
     medicineRouter
 };
