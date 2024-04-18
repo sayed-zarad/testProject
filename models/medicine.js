@@ -1,29 +1,9 @@
-let medicines = [
-    {
-      id: "1",
-      name: "Paracetamol",
-      dosage: "500mg",
-      manufacturer: "Example Pharmaceuticals",
-    },
-    {
-      id: "2",
-      name: "Ibuprofen",
-      dosage: "200mg",
-      manufacturer: "Generic Pharma Inc.",
-  },
-  {
-      id: "3",
-      name: "Amoxicillin",
-      dosage: "250mg",
-      manufacturer: "Global Pharmaceuticals",
-  },
-  {
-      id: "4",
-      name: "Aspirin",
-      dosage: "100mg",
-      manufacturer: "Mega Pharma Corp",
-  }
-  ];
+const mongoose = require('mongoose');
+const medicineSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  dosage: { type: String, required: true },
+  manufacturer: { type: String, required: true },
+});
+const Medicine = mongoose.model('Medicine', medicineSchema);
 
-
-module.exports = {medicines,};
+module.exports = Medicine;
