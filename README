@@ -7,3 +7,11 @@ json:
   "dosage": "100mg",
   "manufacturer": "MediCure Pharmaceuticals"
 }
+#create new cutsomers
+http://localhost:4000/api/customers
+json:
+{
+  "name": "Rana Tarek",
+  "phoneNumber": "1234567890",
+  "address": "123 Main Street"
+}
