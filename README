@@ -2,16 +2,36 @@
 http://localhost:4000/api/medicine/:medId
 json:
 {
- 
-  "name": "Dilofenac",
-  "dosage": "100mg",
-  "manufacturer": "MediCure Pharmaceuticals"
+
+"name": "Dilofenac",
+"dosage": "100mg",
+"manufacturer": "MediCure Pharmaceuticals"
 }
 #create new cutsomers, and getALL
 http://localhost:4000/api/customers
 json:
 {
-  "name": "Rana Tarek",
-  "phoneNumber": "1234567890",
-  "address": "123 Main Street"
+"name": "Rana Tarek",
+"phoneNumber": "1234567890",
+"address": "123 Main Street"
+}
+
+# order
+
+create order : post http://localhost:4000/api/order
+
+JSON : {
+"customer": "66215e42b7a4a7feb66192b4",
+"medications": [
+{
+"medication": "662196cb6b81918b42966eb6",
+"quantity": 2
+},
+{
+"medication": "662199cc759512cee90b41c3",
+"quantity": 1
+}
+],
+"status": "delivered"
+
 }
