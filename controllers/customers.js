@@ -17,9 +17,16 @@ const addCustomer =async(req, res)=> {
     }
 }
 
-
+const getAllCustomers = async (req, res) => {
+    try {
+      const customers = await Customer.find();
+      res.json(customers);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 module.exports = {
     addCustomer,
-  
+    getAllCustomers,
   };
