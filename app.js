@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 app.use(express.json());
-const medicineRouter = require("./routes/medicine");
-app.use(bodyParser.json());
 
-app.use("/", medicineRouter); // Mount the medicine router at /medicine
+const { medicineRouter } = require('./routes/medicine');
+const {customerRouter} = require('./routes/customers');
 
-module.exports = app;
+app.use('/api/medicine', medicineRouter);
+app.use('/api/customers',customerRouter);
+module.exports = {
+    app,
+};
