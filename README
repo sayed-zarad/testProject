@@ -1,0 +1,9 @@
+#for updating medicine api
+http://localhost:4000/api/medicine/:medId
+json:
+{
+ 
+  "name": "Dilofenac",
+  "dosage": "100mg",
+  "manufacturer": "MediCure Pharmaceuticals"
+}
