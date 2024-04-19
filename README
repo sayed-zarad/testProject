@@ -35,3 +35,19 @@ JSON : {
 "status": "delivered"
 
 }
+
+**********************************************************************************
+
+# delete medicine
+http://localhost:3000/api/medicine/:id
+# update customer 
+http://localhost:4000/api/customers/:id
+json:
+{
+  "name": "Zainab Ahmed",
+  "phoneNumber": "789632",
+  "address": "123 Main St, City, Country"
+}
+
+# delete customer
+http://localhost:4000/api/customers/:id
