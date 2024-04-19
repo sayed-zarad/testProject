@@ -87,6 +87,7 @@ const getMedicineById = (req, res) => {
   }
   res.json(medicine);
 };
+
 const getAllMedicines = (req, res) => {
   res.json({ medicines: medicines });
 };
