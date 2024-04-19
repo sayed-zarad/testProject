@@ -88,9 +88,13 @@ const getMedicineById = (req, res) => {
   res.json(medicine);
 };
 
-const getAllMedicines = (req, res) => {
-  res.json({ medicines: medicines });
-};
+const getAllMedicines = async (req, res) => {
+  try {
+    const medicines = await Medicine.find();
+    res.json({ medicines });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 
 module.exports = {
   addMedicine,
