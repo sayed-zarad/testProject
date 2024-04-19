@@ -8,7 +8,7 @@ medicineRouter.put('/:id',medicineController.updateMedicine);
 
 medicineRouter.delete('/:id', medicineController.deleteMedicine);
 
-medicineRouter.get('/getMedicine',medicineController.getMedicineById);
+medicineRouter.get('/:id',medicineController.getMedicineById);
 
 
 
