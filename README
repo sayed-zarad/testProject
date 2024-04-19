@@ -1,3 +1,7 @@
+## to run te app using docker
+build: docker build -t pharmacy .
+Run: docker run -p 4000:4000 pharmacy
+
 #for updating medicine api
 http://localhost:4000/api/medicine/:medId
 json:
