@@ -46,26 +46,38 @@ const createOrder = async (req, res) => {
 
 const updateOrder = async (req, res) => {
   try {
-    // Extract order ID and updated data from request body
-    const { orderId } = req.params;
-    const updatedData = req.body;
+    const orderId = req.params.orderId;
+    const { customer, medications, status } = req.body;
 
-    // Check if the order exists
-    const order = await Order.findById(orderId);
-    if (!order) {
-      return res
-        .status(404)
-        .json({ error: `Order with ID ${orderId} not found` });
+    // Calculate total cost based on medication prices
+    let totalCost = 0;
+    for (const { medication, quantity } of medications) {
+      const med = await Medicine.findById(medication);
+      if (!med) {
+        return res
+          .status(404)
+          .json({ error: `Medication with ID ${medication} not found` });
+      }
+      totalCost += med.price * quantity;
     }
 
-    // Update the order with the new data
-    Object.assign(order, updatedData);
+    // Find the existing order by ID
+    const existingOrder = await Order.findById(orderId);
+    if (!existingOrder) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    // Update the order with new data
+    existingOrder.customer = customer;
+    existingOrder.medications = medications;
+    existingOrder.status = status;
+    existingOrder.totalCost = totalCost;
 
     // Save the updated order to the database
-    const savedOrder = await order.save();
+    const updatedOrder = await existingOrder.save();
 
     // Respond with the updated order
-    res.status(200).json(savedOrder);
+    res.status(200).json(updatedOrder);
   } catch (error) {
     // If an error occurs, respond with an error message
     res.status(500).json({ error: error.message });
