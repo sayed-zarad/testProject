@@ -1,50 +1,54 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const {validateMedicine} = require("../helper/validation");
-const {medicines} = require("../models/medicine");
-const Medicine  =require("../models/medicine");
+const { validateMedicine } = require("../helper/validation");
+const { medicines } = require("../models/medicine");
+const Medicine = require("../models/medicine");
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 
-
-
-function addMedicine(req, res) {
-  const { name, dosage, manufacturer } = req.body;
+async function addMedicine(req, res) {
+  const { name, dosage, manufacturer, price } = req.body;
 
   // Check if all required fields are present
   if (!name || !dosage || !manufacturer) {
     return res.status(400).json({ message: "Missing required fields" });
   }
-
-  // Create new medicine object
-  const newMedicine = {
-    id: medicines.length + 1, // simple id generation
-    name,
-    dosage,
-    manufacturer,
-  };
-
-  // Add the new medicine to the array
-  medicines.push(newMedicine);
-
-  // Respond with the newly added medicine
-  res.status(201).json(newMedicine);
-}
-
-
-const updateMedicine = async (req, res) => {
-  const id = req.params.id;
-  const { name, dosage, manufacturer } = req.body;
-
   try {
-    const medicine = await Medicine.findByIdAndUpdate(id, {
+    // Create new medicine object
+    const newMedicine = new Medicine({
       name,
       dosage,
       manufacturer,
-    }, { new: true });
+      price,
+    });
+    const savedMedicine = await newMedicine.save();
+
+    res.status(201).json(savedMedicine);
+  } catch (error) {
+    // Handle error if saving to the database fails
+    console.error("Error adding medicine:", error);
+    res.status(500).json({ message: "Failed to add medicine", error });
+  }
+}
+
+const updateMedicine = async (req, res) => {
+  const id = req.params.id;
+  const { name, dosage, manufacturer, price } = req.body;
+
+  try {
+    const medicine = await Medicine.findByIdAndUpdate(
+      id,
+      {
+        name,
+        dosage,
+        manufacturer,
+        price,
+      },
+      { new: true }
+    );
 
     if (!medicine) {
       return res.status(404).json({ message: "Medicine not found" });
@@ -52,17 +56,14 @@ const updateMedicine = async (req, res) => {
 
     res.json({ message: "Medicine updated successfully", medicine });
   } catch (error) {
-    console.error('Error updating medicine:', error);
+    console.error("Error updating medicine:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-
-
-
 const deleteMedicine = (req, res) => {
   const id = req.params.id;
-  const medicineIndex = medicines.findIndex(medicine => medicine.id === id);
+  const medicineIndex = medicines.findIndex((medicine) => medicine.id === id);
   if (medicineIndex === -1) {
     return res.status(404).json({ message: "Medicine not found" });
   }
@@ -75,7 +76,7 @@ const deleteMedicine = (req, res) => {
 
 const getMedicineById = (req, res) => {
   const id = req.params.id;
-  const medicine = medicines.find(medicine => medicine.id === id);
+  const medicine = medicines.find((medicine) => medicine.id === id);
   if (!medicine) {
     return res.status(404).json({ message: "Medicine not found" });
   }
