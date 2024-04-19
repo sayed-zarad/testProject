@@ -44,6 +44,47 @@ const createOrder = async (req, res) => {
   }
 };
 
+const updateOrder = async (req, res) => {
+  try {
+    // Extract order ID and updated data from request body
+    const { orderId } = req.params;
+    const updatedData = req.body;
+
+    // Check if the order exists
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: `Order with ID ${orderId} not found` });
+    }
+
+    // Update the order with the new data
+    Object.assign(order, updatedData);
+
+    // Save the updated order to the database
+    const savedOrder = await order.save();
+
+    // Respond with the updated order
+    res.status(200).json(savedOrder);
+  } catch (error) {
+    // If an error occurs, respond with an error message
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllOrders = async (req, res) => {
+  try {
+    // Retrieve all orders from the database
+    const orders = await Order.find();
+
+    // Respond with the list of orders
+    res.status(200).json(orders);
+  } catch (error) {
+    // If an error occurs, respond with an error message
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createOrder,
+  updateOrder,
+  getAllOrders,
 };
