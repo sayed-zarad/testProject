@@ -7,6 +7,7 @@ orderRouter.post("/", orderController.createOrder);
 
 // Route to update an existing order
 orderRouter.put("/:orderId", orderController.updateOrder);
+orderRouter.delete("/:orderId", orderController.deleteOrder);
 
 // Route to get all orders
 orderRouter.get("/", orderController.getAllOrders);
