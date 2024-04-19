@@ -74,14 +74,19 @@ const deleteMedicine = (req, res) => {
   res.json({ message: "Medicine deleted successfully" });
 };
 
-const getMedicineById = (req, res) => {
-  const id = req.params.id;
-  const medicine = medicines.find((medicine) => medicine.id === id);
-  if (!medicine) {
-    return res.status(404).json({ message: "Medicine not found" });
+const getMedicineById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const medicine = await Medicine.findById(id);
+    if (!medicine) {
+      return res.status(404).json({ message: "Medicine not found" });
+    }
+    res.json(medicine);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-  res.json(medicine);
 };
+
 const getAllMedicines = (req, res) => {
   res.json({ medicines: medicines });
 };
