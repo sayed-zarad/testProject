@@ -61,18 +61,23 @@ const updateMedicine = async (req, res) => {
   }
 };
 
-const deleteMedicine = (req, res) => {
+const deleteMedicine = async (req, res) => {
   const id = req.params.id;
-  const medicineIndex = medicines.findIndex((medicine) => medicine.id === id);
-  if (medicineIndex === -1) {
-    return res.status(404).json({ message: "Medicine not found" });
+
+  try {
+    const deletedMedicine = await Medicine.findByIdAndDelete(id);
+
+    if (!deletedMedicine) {
+      return res.status(404).json({ message: "Medicine not found" });
+    }
+
+    res.json({ message: "Medicine deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting medicine:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-
-  // Remove the medicine from the array
-  medicines.splice(medicineIndex, 1);
-
-  res.json({ message: "Medicine deleted successfully" });
 };
+
 
 const getMedicineById = (req, res) => {
   const id = req.params.id;
