@@ -11,6 +11,8 @@ orderRouter.delete("/:orderId", orderController.deleteOrder);
 
 // Route to get all orders
 orderRouter.get("/", orderController.getAllOrders);
+orderRouter.get('/:id', orderController.getOrderById);
+
 
 module.exports = {
   orderRouter,

@@ -85,6 +85,20 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+const getOrderById = async (req, res) => {
+  try {
+      const orderId = req.params.id;
+      const order = await Order.findById(orderId);
+      if (!order) {
+          return res.status(404).json({ error: `Order with ID ${orderId} not found` });
+      }
+      res.status(200).json(order);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+}
+
+
 const deleteOrder = async (req, res) => {
   const orderId = req.params.orderId;
 
@@ -108,4 +122,5 @@ module.exports = {
   updateOrder,
   getAllOrders,
   deleteOrder,
+  getOrderById,
 };
